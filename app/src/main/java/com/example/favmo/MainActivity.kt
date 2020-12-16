@@ -30,74 +30,29 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val firstFragment=FavoriteMovie()
+        val secondFragment=BrowseMovie()
+        val thirdFragment=WatchList()
 
-        rv_movies.layoutManager = LinearLayoutManager(this)
+        setCurrentFragment(firstFragment)
 
-        val apiKey = getString(R.string.api_key)
-        val apiInterface : ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
-        getToRateMovie(apiInterface, apiKey)
-        getPopularMovies(apiInterface, apiKey)
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.fav->setCurrentFragment(firstFragment)
+                R.id.browse->setCurrentFragment(secondFragment)
+                R.id.watchlist->setCurrentFragment(thirdFragment)
 
-
+            }
+            true
+        }
     }
+    private fun setCurrentFragment(fragment:Fragment)=
+        supportFragmentManager.beginTransaction().apply {
+            replace(R.id.flFragment,fragment)
+            commit()
+        }
 
-    fun getPopularMovies(apiInterface: ApiInterface, apiKey : String) {
-        val call : Call<MovieResponse> = apiInterface.getPopularMovie(apiKey)
-        call.enqueue(object : Callback<MovieResponse> {
-            override fun onFailure(call: Call<MovieResponse>?, t: Throwable?) {
-                Log.d("$TAG", "Gagal Fetch Popular Movie")
-            }
 
-            override fun onResponse(call: Call<MovieResponse>?, response: Response<MovieResponse>?) {
-                movies = response!!.body()!!.results
-                Log.d("$TAG", "Movie size ${movies.size}")
-                rv_movies.adapter = MovieAdapter(movies)
-            }
-
-        })
-    }
-
-    fun getToRateMovie(apiInterface: ApiInterface, apiKey : String) {
-        val call : Call<MovieResponse> = apiInterface.getMovieTopRated(apiKey)
-        call.enqueue(object : Callback<MovieResponse> {
-            override fun onFailure(call: Call<MovieResponse>?, t: Throwable?) {
-                Log.d("$TAG", "Gagal Fetch Popular Movie")
-            }
-
-            override fun onResponse(call: Call<MovieResponse>?, response: Response<MovieResponse>?) {
-                movies = response!!.body()!!.results
-                Log.d("$TAG", "Movie size ${movies.size}")
-                rv_movies.adapter = MovieAdapter(movies)
-            }
-
-        })
-    }
-
-    fun getLatestMovie(apiInterface: ApiInterface, apiKey : String) : Movie? {
-        var movie : Movie? = null
-        val call : Call<Movie> = apiInterface.getMovieLatest(apiKey)
-        call.enqueue(object : Callback<Movie> {
-            override fun onFailure(call: Call<Movie>?, t: Throwable?) {
-                Log.d("$TAG", "Gagal Fetch Popular Movie")
-            }
-
-            override fun onResponse(call: Call<Movie>?, response: Response<Movie>?) {
-                if (response != null) {
-                    var originalTitle : String? = response.body()?.originalTitle
-                    var posterPath : String? = response.body()?.posterPath
-
-                    if (posterPath == null) {
-                    } else {
-                        val imageUrl = StringBuilder()
-                        imageUrl.append(getString(R.string.base_path_poster)).append(posterPath)
-                    }
-                }
-            }
-
-        })
-
-        return movie
-    }
 }
 
 
