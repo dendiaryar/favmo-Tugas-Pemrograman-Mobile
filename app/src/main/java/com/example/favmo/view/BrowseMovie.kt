@@ -1,11 +1,13 @@
 package com.example.favmo.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -16,11 +18,12 @@ import com.example.favmo.data.service.ApiClient
 import com.example.favmo.data.service.ApiInterface
 import kotlinx.android.synthetic.main.fragment_browse_movie.*
 import com.example.favmo.view.adapter.MovieAdapter
+import com.example.favmo.view.detail.SingleMovieActivity
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class BrowseMovie : Fragment() {
+class BrowseMovie : Fragment(),CellClickListener {
     private val TAG : String = BrowseMovie::class.java.canonicalName
     private lateinit var movies : ArrayList<Movie>
     override fun onCreateView(
@@ -55,7 +58,7 @@ class BrowseMovie : Fragment() {
             override fun onResponse(call: Call<MovieResponse>?, response: Response<MovieResponse>?) {
                 movies = response!!.body()!!.results
                 Log.d("$TAG", "Movie size ${movies.size}")
-                rv_movies.adapter = MovieAdapter(movies)
+                rv_movies.adapter = MovieAdapter(movies,this@BrowseMovie)
             }
 
         })
@@ -71,7 +74,7 @@ class BrowseMovie : Fragment() {
             override fun onResponse(call: Call<MovieResponse>?, response: Response<MovieResponse>?) {
                 movies = response!!.body()!!.results
                 Log.d("$TAG", "Movie size ${movies.size}")
-                rv_movies.adapter = MovieAdapter(movies)
+                rv_movies.adapter = MovieAdapter(movies,this@BrowseMovie)
             }
 
         })
@@ -101,6 +104,13 @@ class BrowseMovie : Fragment() {
         })
 
         return movie
+    }
+
+    override fun onCellClickListener(data : Movie) {
+        //Toast.makeText(requireContext(),"Cell clicked ${data}", Toast.LENGTH_SHORT).show()
+        val intent = Intent(requireContext(), SingleMovieActivity::class.java)
+        intent.putExtra("movie",data)
+        startActivity(intent)
     }
 
 

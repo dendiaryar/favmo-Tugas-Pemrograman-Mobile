@@ -8,11 +8,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.favmo.R
 import com.example.favmo.data.model.Movie
+import com.example.favmo.view.BrowseMovie
+import com.example.favmo.view.CellClickListener
 import kotlinx.android.synthetic.main.row.view.*
 
-class MovieAdapter(val movies : ArrayList<Movie>) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
+class MovieAdapter(val movies : ArrayList<Movie>, private val cellClickListener: CellClickListener) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.bind(movies.get(position))
+        val data = movies[position]
+        holder.itemView.setOnClickListener {
+            cellClickListener.onCellClickListener(data)
+        }
     }
 
     override fun getItemCount() = movies.size
@@ -24,7 +30,7 @@ class MovieAdapter(val movies : ArrayList<Movie>) : RecyclerView.Adapter<MovieAd
 
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private var view : View = itemView
-        private var movie : Movie? = null
+        private lateinit var movie : Movie
 
         override fun onClick(p0: View?) {
             Toast.makeText(view.context, "Item diklik", Toast.LENGTH_LONG).show()
