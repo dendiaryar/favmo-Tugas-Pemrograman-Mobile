@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         val secondFragment=BrowseMovie()
         val thirdFragment=WatchList()
 
-        setCurrentFragment(firstFragment)
+        setCurrentFragment(secondFragment)
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when(it.itemId){

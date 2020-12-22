@@ -29,4 +29,6 @@ class SingleMovieActivity : AppCompatActivity() {
         }
 
     }
+
+
 }

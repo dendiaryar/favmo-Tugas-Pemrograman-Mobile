@@ -17,19 +17,19 @@
         >
 
         <ImageView
-            android:id="@+id/imageTV"
+            android:id="@+id/imagefTV"
             android:layout_width="163dp"
             android:layout_height="171dp"
             android:src="@drawable/ic_launcher_background" />
 
         <TextView
-            android:id="@+id/mvtitle"
+            android:id="@+id/mvftitle"
             android:layout_width="172dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginLeft="8dp"
-            android:layout_toEndOf="@id/imageTV"
-            android:layout_toRightOf="@+id/imageTV"
+            android:layout_toEndOf="@id/imagefTV"
+            android:layout_toRightOf="@+id/imagefTV"
             android:text="TItle"
             android:textColor="@color/blackColor"
             android:textSize="27sp"
@@ -43,28 +43,28 @@
             android:textFontWeight="500"
             android:textColor="@color/blackColor"
             android:layout_toRightOf="@+id/imageTV"
-            android:layout_toEndOf="@id/imageTV"
-            android:layout_below="@id/mvtitle"
+            android:layout_toEndOf="@id/imagefTV"
+            android:layout_below="@id/mvftitle"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:text="Description"
             />
 
         <ImageView
-            android:id="@+id/rating_star"
+            android:id="@+id/ratingf_star"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_star_black_24dp"
-            android:layout_toRightOf="@+id/imageTV"
+            android:layout_toRightOf="@+id/imagefTV"
             android:layout_below="@+id/description"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             />
         <TextView
-            android:id="@+id/rating_value"
+            android:id="@+id/ratingf_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/rating_star"
+            android:layout_toRightOf="@id/ratingf_star"
             android:layout_below="@id/description"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
@@ -77,13 +77,13 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:src="@drawable/ic_favorite_24dp"
-            android:layout_toRightOf="@+id/rating_value"
+            android:layout_toRightOf="@+id/ratingf_value"
             android:layout_below="@+id/description"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             />
         <TextView
-            android:id="@+id/popularity_value"
+            android:id="@+id/popularityf_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/popularity_heart"
@@ -95,19 +95,6 @@
             android:textStyle="bold"
             />
 
-        <Button
-            android:layout_marginTop="30dp"
-            android:layout_marginLeft="30dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint ="@color/white"
-            android:textColor="@color/blackColor"
-            android:text="Add to favorite"
-            android:textSize="12dp"
-            android:layout_below="@id/rating_star"
-            android:layout_toRightOf="@+id/imageTV"
-
-            />
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
