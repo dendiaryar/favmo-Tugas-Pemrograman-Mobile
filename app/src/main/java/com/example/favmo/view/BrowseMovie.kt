@@ -50,14 +50,14 @@ class BrowseMovie : Fragment(),CellClickListener,FavoriteClickListner {
         val apiKey = getString(R.string.api_key)
         val apiInterface : ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
         getToRateMovie(apiInterface, apiKey)
-        getPopularMovies(apiInterface, apiKey)
+        getPopularMovies(apiInterface, apiKey,1)
 
     }
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
 
         }
-    fun getPopularMovies(apiInterface: ApiInterface, apiKey : String) {
-        val call : Call<MovieResponse> = apiInterface.getPopularMovie(apiKey)
+    fun getPopularMovies(apiInterface: ApiInterface, apiKey : String,page : Int) {
+        val call : Call<MovieResponse> = apiInterface.getPopularMovie(apiKey,page)
         call.enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>?, t: Throwable?) {
                 Log.d("$TAG", "Gagal Fetch Popular Movie")
@@ -76,15 +76,13 @@ class BrowseMovie : Fragment(),CellClickListener,FavoriteClickListner {
         val call : Call<MovieResponse> = apiInterface.getMovieTopRated(apiKey)
         call.enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>?, t: Throwable?) {
-                Log.d("$TAG", "Gagal Fetch Popular Movie")
+                Log.d("$TAG", "Gagal Fetch Top rate Movie")
             }
-
             override fun onResponse(call: Call<MovieResponse>?, response: Response<MovieResponse>?) {
                 movies = response!!.body()!!.results
                 Log.d("$TAG", "Movie size ${movies.size}")
                 rv_movies.adapter = MovieAdapter(movies,this@BrowseMovie,this@BrowseMovie)
             }
-
         })
     }
 
@@ -93,7 +91,7 @@ class BrowseMovie : Fragment(),CellClickListener,FavoriteClickListner {
         val call : Call<Movie> = apiInterface.getMovieLatest(apiKey)
         call.enqueue(object : Callback<Movie> {
             override fun onFailure(call: Call<Movie>?, t: Throwable?) {
-                Log.d("$TAG", "Gagal Fetch Popular Movie")
+                Log.d("$TAG", "Gagal Fetch Movie terbaru")
             }
 
             override fun onResponse(call: Call<Movie>?, response: Response<Movie>?) {
@@ -113,8 +111,6 @@ class BrowseMovie : Fragment(),CellClickListener,FavoriteClickListner {
 
         return movie
     }
-
-
 
     override fun onCellClickListener(data : Movie) {
         //Toast.makeText(requireContext(),"Cell clicked ${data}", Toast.LENGTH_SHORT).show()
@@ -136,8 +132,4 @@ class BrowseMovie : Fragment(),CellClickListener,FavoriteClickListner {
         }
         favoriteHelper.insert(values)
     }
-
-
-
-
 }

@@ -1,5 +1,6 @@
 package com.example.favmo.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,9 +13,9 @@ import com.example.favmo.R
 import com.example.favmo.data.db.FavoriteHelper
 import com.example.favmo.data.helper.MappingHelper
 import com.example.favmo.data.model.Movie
-import com.example.favmo.data.service.ApiClient
-import com.example.favmo.data.service.ApiInterface
+
 import com.example.favmo.view.adapter.FavoriteAdapter
+import com.example.favmo.view.detail.SingleMovieActivity
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_favorite_movie.*
 import kotlinx.coroutines.Dispatchers
@@ -22,7 +23,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class FavoriteMovie : Fragment() {
+class FavoriteMovie : Fragment(),CellClickListener {
     private val TAG : String = FavoriteMovie::class.java.canonicalName
     private lateinit var adapter: FavoriteAdapter
     private lateinit var favoriteHelper: FavoriteHelper
@@ -47,7 +48,7 @@ class FavoriteMovie : Fragment() {
         super.onCreate(savedInstanceState)
         favoriteHelper = FavoriteHelper.getInstance(requireContext())
         favoriteHelper.open()
-        adapter = FavoriteAdapter()
+        adapter = FavoriteAdapter(this)
 
         loadNotesAsync()
 
@@ -88,6 +89,13 @@ class FavoriteMovie : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putParcelableArrayList(EXTRA_STATE, adapter.listFavorites)
+    }
+
+    override fun onCellClickListener(data : Movie)
+    {
+        val intent = Intent(requireContext(), SingleMovieActivity::class.java)
+        intent.putExtra("movie",data)
+        startActivity(intent)
     }
 
 

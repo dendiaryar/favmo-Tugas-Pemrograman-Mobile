@@ -9,10 +9,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.favmo.R
 import com.example.favmo.data.model.Movie
+import com.example.favmo.view.CellClickListener
 import kotlinx.android.synthetic.main.favorite_and_wlist.view.*
 import kotlinx.android.synthetic.main.row.view.*
 
-class FavoriteAdapter() : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
+class FavoriteAdapter(private val cellClickListener: CellClickListener) : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
     var listFavorites = ArrayList<Movie>()
         set(listFavorites) {
@@ -30,6 +31,10 @@ class FavoriteAdapter() : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolde
 
     override fun onBindViewHolder(holder: FavoriteViewHolder, position: Int) {
         holder.bind(listFavorites[position])
+        val data = listFavorites[position]
+        holder.itemView.setOnClickListener {
+            cellClickListener.onCellClickListener(data)
+        }
     }
 
     override fun getItemCount(): Int = this.listFavorites.size
@@ -52,4 +57,5 @@ class FavoriteAdapter() : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolde
         notifyItemRemoved(position)
         notifyItemRangeChanged(position, this.listFavorites.size)
     }
+
 }
