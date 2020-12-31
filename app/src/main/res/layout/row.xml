@@ -35,20 +35,7 @@
             android:textSize="27sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/description"
-            android:textSize="18sp"
-            android:textFontWeight="500"
-            android:textColor="@color/blackColor"
-            android:layout_toRightOf="@+id/imageTV"
-            android:layout_toEndOf="@id/imageTV"
-            android:layout_below="@id/mvtitle"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:text="Description"
-            />
+
 
         <ImageView
             android:id="@+id/rating_star"
@@ -56,7 +43,7 @@
             android:layout_height="24dp"
             android:src="@drawable/ic_star_black_24dp"
             android:layout_toRightOf="@+id/imageTV"
-            android:layout_below="@+id/description"
+            android:layout_below="@+id/mvtitle"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             />
@@ -65,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/rating_star"
-            android:layout_below="@id/description"
+            android:layout_below="@id/mvtitle"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
             android:text="rating"
@@ -78,7 +65,7 @@
             android:layout_height="24dp"
             android:src="@drawable/ic_favorite_24dp"
             android:layout_toRightOf="@+id/rating_value"
-            android:layout_below="@+id/description"
+            android:layout_below="@+id/mvtitle"
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             />
@@ -87,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/popularity_heart"
-            android:layout_below="@id/description"
+            android:layout_below="@id/mvtitle"
             android:layout_marginTop="10dp"
             android:layout_marginLeft="5dp"
             android:text="rating"
@@ -106,6 +93,7 @@
             android:textSize="12dp"
             android:layout_below="@id/rating_star"
             android:layout_toRightOf="@+id/imageTV"
+            android:id="@+id/favorite_btn"
 
             />
     </RelativeLayout>

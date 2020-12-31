@@ -1,5 +1,6 @@
 package com.example.favmo.view
 
+import android.content.ContentValues
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,6 +14,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.favmo.R
+import com.example.favmo.data.db.DatabaseContract.FavoriteColumns
+import com.example.favmo.data.db.DatabaseHelper
+import com.example.favmo.data.db.FavoriteHelper
 import com.example.favmo.data.model.Movie
 import com.example.favmo.data.model.MovieResponse
 import com.example.favmo.data.service.ApiClient
@@ -24,8 +28,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class BrowseMovie : Fragment(),CellClickListener {
+class BrowseMovie : Fragment(),CellClickListener,FavoriteClickListner {
     private val TAG : String = BrowseMovie::class.java.canonicalName
+    private lateinit var favoriteHelper: FavoriteHelper
     private lateinit var movies : ArrayList<Movie>
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +45,8 @@ class BrowseMovie : Fragment(),CellClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        favoriteHelper = FavoriteHelper.getInstance(requireContext())
+        favoriteHelper.open()
         val apiKey = getString(R.string.api_key)
         val apiInterface : ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
         getToRateMovie(apiInterface, apiKey)
@@ -59,7 +66,7 @@ class BrowseMovie : Fragment(),CellClickListener {
             override fun onResponse(call: Call<MovieResponse>?, response: Response<MovieResponse>?) {
                 movies = response!!.body()!!.results
                 Log.d("$TAG", "Movie size ${movies.size}")
-                rv_movies.adapter = MovieAdapter(movies,this@BrowseMovie)
+                rv_movies.adapter = MovieAdapter(movies,this@BrowseMovie,this@BrowseMovie)
             }
 
         })
@@ -75,7 +82,7 @@ class BrowseMovie : Fragment(),CellClickListener {
             override fun onResponse(call: Call<MovieResponse>?, response: Response<MovieResponse>?) {
                 movies = response!!.body()!!.results
                 Log.d("$TAG", "Movie size ${movies.size}")
-                rv_movies.adapter = MovieAdapter(movies,this@BrowseMovie)
+                rv_movies.adapter = MovieAdapter(movies,this@BrowseMovie,this@BrowseMovie)
             }
 
         })
@@ -115,6 +122,22 @@ class BrowseMovie : Fragment(),CellClickListener {
         intent.putExtra("movie",data)
         startActivity(intent)
     }
+
+    override fun onFavoriteClickListener(data: Movie) {
+        val dbHelper = DatabaseHelper(requireContext())
+        Toast.makeText(requireContext(),"button clicked ${data}", Toast.LENGTH_SHORT).show()
+        val values = ContentValues().apply {
+            put(FavoriteColumns._ID, data.id)
+            put(FavoriteColumns.TITLE, data.originalTitle)
+            put(FavoriteColumns.OVERVIEW, data.overview)
+            put(FavoriteColumns.POSTERPATH, data.posterPath)
+            put(FavoriteColumns.POPULARITY, data.popularity)
+            put(FavoriteColumns.VOTEAVERAGE, data.voteaverage)
+        }
+        favoriteHelper.insert(values)
+    }
+
+
 
 
 }

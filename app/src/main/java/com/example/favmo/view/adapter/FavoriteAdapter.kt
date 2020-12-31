@@ -47,15 +47,6 @@ class FavoriteAdapter() : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolde
         }
     }
 
-
-    fun addItem(favorite: Movie) {
-        this.listFavorites.add(favorite)
-        notifyItemInserted(this.listFavorites.size - 1)
-    }
-    fun updateItem(position: Int, note: Movie) {
-        this.listFavorites[position] = note
-        notifyItemChanged(position, note)
-    }
     fun removeItem(position: Int) {
         this.listFavorites.removeAt(position)
         notifyItemRemoved(position)

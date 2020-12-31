@@ -8,8 +8,4 @@
         android:id="@+id/browse"
         android:title="Browse"
         android:icon="@drawable/ic_browse_foreground"/>
-    <item
-        android:id="@+id/watchlist"
-        android:title="Watch list"
-        android:icon="@drawable/ic_watchlist_foreground"/>
 </menu>

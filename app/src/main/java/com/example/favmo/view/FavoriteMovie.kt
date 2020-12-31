@@ -83,10 +83,7 @@ class FavoriteMovie : Fragment() {
             }
         }
     }
-    override fun onDestroy() {
-        super.onDestroy()
-        favoriteHelper.close()
-    }
+
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
