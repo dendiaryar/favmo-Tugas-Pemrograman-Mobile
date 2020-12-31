@@ -10,10 +10,12 @@ import com.bumptech.glide.Glide
 import com.example.favmo.R
 import com.example.favmo.data.model.Movie
 import com.example.favmo.view.CellClickListener
+import com.example.favmo.view.FavoriteClickListner
 import kotlinx.android.synthetic.main.favorite_and_wlist.view.*
 import kotlinx.android.synthetic.main.row.view.*
 
-class FavoriteAdapter(private val cellClickListener: CellClickListener) : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
+class FavoriteAdapter(private val cellClickListener: CellClickListener,private val favoriteClickListner: FavoriteClickListner)
+    : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
     var listFavorites = ArrayList<Movie>()
         set(listFavorites) {
@@ -35,6 +37,10 @@ class FavoriteAdapter(private val cellClickListener: CellClickListener) : Recycl
         holder.itemView.setOnClickListener {
             cellClickListener.onCellClickListener(data)
         }
+        holder.itemView.favoriteDelete_btn.setOnClickListener{
+            favoriteClickListner.onFavoriteClickListener(data)
+            removeItem(position)
+        }
     }
 
     override fun getItemCount(): Int = this.listFavorites.size
@@ -52,10 +58,10 @@ class FavoriteAdapter(private val cellClickListener: CellClickListener) : Recycl
         }
     }
 
-    fun removeItem(position: Int) {
-        this.listFavorites.removeAt(position)
-        notifyItemRemoved(position)
-        notifyItemRangeChanged(position, this.listFavorites.size)
-    }
+        fun removeItem(position: Int) {
+            this.listFavorites.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, this.listFavorites.size)
+        }
 
 }

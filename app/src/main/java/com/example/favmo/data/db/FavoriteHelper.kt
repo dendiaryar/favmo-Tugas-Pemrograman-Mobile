@@ -65,7 +65,7 @@ class FavoriteHelper(context: Context) {
         return database.insert(DATABASE_TABLE, null, values)
     }
 
-    fun deleteById(id: String): Int {
+    fun deleteById(id: Int): Int {
         return database.delete(DATABASE_TABLE, "$_ID = '$id'", null)
     }
 

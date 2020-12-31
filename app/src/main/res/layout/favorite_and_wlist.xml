@@ -105,7 +105,7 @@
             android:textSize="10dp"
             android:layout_below="@id/popularityf_value"
             android:layout_toRightOf="@+id/imagefTV"
-            android:id="@+id/favorite_btn"
+            android:id="@+id/favoriteDelete_btn"
 
             />
 

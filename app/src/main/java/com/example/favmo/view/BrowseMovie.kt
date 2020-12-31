@@ -28,7 +28,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class BrowseMovie : Fragment(),CellClickListener,FavoriteClickListner {
+class BrowseMovie : Fragment(),CellClickListener,FavoriteClickListner,LoadMoreListener {
     private val TAG : String = BrowseMovie::class.java.canonicalName
     private lateinit var favoriteHelper: FavoriteHelper
     private lateinit var movies : ArrayList<Movie>
@@ -131,5 +131,9 @@ class BrowseMovie : Fragment(),CellClickListener,FavoriteClickListner {
             put(FavoriteColumns.VOTEAVERAGE, data.voteaverage)
         }
         favoriteHelper.insert(values)
+    }
+
+    override fun onLoadMoreListener(page : Int) {
+        getPopularMovies(ApiClient.getClient().create(ApiInterface::class.java),getString(R.string.api_key),page)
     }
 }
