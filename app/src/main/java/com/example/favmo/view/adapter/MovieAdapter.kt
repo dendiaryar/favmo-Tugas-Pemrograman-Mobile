@@ -10,15 +10,19 @@ import com.example.favmo.R
 import com.example.favmo.data.model.Movie
 import com.example.favmo.view.CellClickListener
 import com.example.favmo.view.FavoriteClickListner
+import com.example.favmo.view.LoadMoreListener
+import kotlinx.android.synthetic.main.loadmore.view.*
 import kotlinx.android.synthetic.main.row.view.*
 
 
 class MovieAdapter(
-    val movies: ArrayList<Movie>,
+    private val movies: ArrayList<Movie>,
     private val cellClickListener: CellClickListener,
-    private val favoriteClickListener: FavoriteClickListner
+    private val favoriteClickListener: FavoriteClickListner,
+    private val loadMoreListener: LoadMoreListener
 )
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+    private var page = 1
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (getItemViewType(position)) {
             R.layout.row -> (holder as MovieViewHolder).bind(movies[position])
@@ -31,6 +35,12 @@ class MovieAdapter(
             }
             holder.itemView.favorite_btn.setOnClickListener{
                 favoriteClickListener.onFavoriteClickListener(data)
+            }
+        }else{
+            holder.itemView.loadmore.setOnClickListener{
+                page+=1
+                loadMoreListener.onLoadMoreListener(page)
+                notifyDataSetChanged()
             }
         }
 
@@ -56,13 +66,19 @@ class MovieAdapter(
         //return MovieViewHolder(view)
     }
 
-    class ButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
+    class ButtonViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+            View.OnClickListener
     {
+        private var view : View = itemView
+        private lateinit var movie : Movie
         init {
-
+            itemView.setOnClickListener(this)
+            itemView.loadmore.setOnClickListener(this)
         }
         fun bind() {
 
+        }
+        override fun onClick(p0: View?) {
         }
     }
     class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {

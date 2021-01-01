@@ -17,6 +17,7 @@ import kotlinx.android.synthetic.main.row.view.*
 class FavoriteAdapter(private val cellClickListener: CellClickListener,private val favoriteClickListner: FavoriteClickListner)
     : RecyclerView.Adapter<FavoriteAdapter.FavoriteViewHolder>() {
 
+
     var listFavorites = ArrayList<Movie>()
         set(listFavorites) {
             if (listFavorites.size > 0) {

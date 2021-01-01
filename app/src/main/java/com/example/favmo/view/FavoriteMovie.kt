@@ -102,5 +102,10 @@ class FavoriteMovie : Fragment(),CellClickListener,FavoriteClickListner {
         favoriteHelper.deleteById(data.id)
     }
 
+    override fun onDetach() {
+        favoriteHelper.close()
+        super.onDetach()
+    }
+
 
 }

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/getTopRatedMovies"
+        android:title="Top Rated Movie"
+        android:icon="@drawable/ic_star_black_24dp"
+        />
+    <item
+        android:id="@+id/getPopularMovies"
+        android:title="Popular movie"
+        android:icon="@drawable/ic_favorite_24dp"/>
+    <item
+        android:id="@+id/getLatestMovies"
+        android:title="LatestMovie"
+        android:icon="@drawable/ic_watchlist_background"/>
+</menu>

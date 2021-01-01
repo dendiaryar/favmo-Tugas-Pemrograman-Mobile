@@ -28,10 +28,11 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class BrowseMovie : Fragment(),CellClickListener,FavoriteClickListner,LoadMoreListener {
+class BrowseMovie(private var listType : Int) : Fragment(),CellClickListener,FavoriteClickListner,
+    LoadMoreListener {
     private val TAG : String = BrowseMovie::class.java.canonicalName
     private lateinit var favoriteHelper: FavoriteHelper
-    private lateinit var movies : ArrayList<Movie>
+    private var movies : MutableList<Movie> = ArrayList<Movie>()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,15 +47,26 @@ class BrowseMovie : Fragment(),CellClickListener,FavoriteClickListner,LoadMoreLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         favoriteHelper = FavoriteHelper.getInstance(requireContext())
-        favoriteHelper.open()
         val apiKey = getString(R.string.api_key)
         val apiInterface : ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
-        getToRateMovie(apiInterface, apiKey)
-        getPopularMovies(apiInterface, apiKey,1)
+        selectGetMovie(listType,apiKey,apiInterface,1)
+    }
 
+   private fun selectGetMovie(listType: Int , apiKey: String, apiInterface: ApiInterface, page: Int)
+    {
+        if (listType == 1)
+        {
+            getToRateMovie(apiInterface,apiKey,page)
+        }
+        else if(listType==2)
+        {
+            getPopularMovies(apiInterface,apiKey,page)
+        }else
+        {
+            getLatestMovie(apiInterface,apiKey,page)
+        }
     }
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
-
         }
     fun getPopularMovies(apiInterface: ApiInterface, apiKey : String,page : Int) {
         val call : Call<MovieResponse> = apiInterface.getPopularMovie(apiKey,page)
@@ -64,31 +76,31 @@ class BrowseMovie : Fragment(),CellClickListener,FavoriteClickListner,LoadMoreLi
             }
 
             override fun onResponse(call: Call<MovieResponse>?, response: Response<MovieResponse>?) {
-                movies = response!!.body()!!.results
+                movies.addAll(response!!.body()!!.results)
                 Log.d("$TAG", "Movie size ${movies.size}")
-                rv_movies.adapter = MovieAdapter(movies,this@BrowseMovie,this@BrowseMovie)
+                rv_movies.adapter = MovieAdapter(movies as ArrayList<Movie>,this@BrowseMovie,this@BrowseMovie,this@BrowseMovie)
             }
 
         })
     }
 
-    fun getToRateMovie(apiInterface: ApiInterface, apiKey : String) {
-        val call : Call<MovieResponse> = apiInterface.getMovieTopRated(apiKey)
+    fun getToRateMovie(apiInterface: ApiInterface, apiKey : String,page: Int) {
+        val call : Call<MovieResponse> = apiInterface.getMovieTopRated(apiKey,page)
         call.enqueue(object : Callback<MovieResponse> {
             override fun onFailure(call: Call<MovieResponse>?, t: Throwable?) {
                 Log.d("$TAG", "Gagal Fetch Top rate Movie")
             }
             override fun onResponse(call: Call<MovieResponse>?, response: Response<MovieResponse>?) {
-                movies = response!!.body()!!.results
+                movies.addAll(response!!.body()!!.results)
                 Log.d("$TAG", "Movie size ${movies.size}")
-                rv_movies.adapter = MovieAdapter(movies,this@BrowseMovie,this@BrowseMovie)
+                rv_movies.adapter = MovieAdapter(movies as ArrayList<Movie>,this@BrowseMovie,this@BrowseMovie,this@BrowseMovie)
             }
         })
     }
 
-    fun getLatestMovie(apiInterface: ApiInterface, apiKey : String) : Movie? {
+    fun getLatestMovie(apiInterface: ApiInterface, apiKey : String,page: Int) : Movie? {
         var movie : Movie? = null
-        val call : Call<Movie> = apiInterface.getMovieLatest(apiKey)
+        val call : Call<Movie> = apiInterface.getMovieLatest(apiKey,page)
         call.enqueue(object : Callback<Movie> {
             override fun onFailure(call: Call<Movie>?, t: Throwable?) {
                 Log.d("$TAG", "Gagal Fetch Movie terbaru")
@@ -135,5 +147,12 @@ class BrowseMovie : Fragment(),CellClickListener,FavoriteClickListner,LoadMoreLi
 
     override fun onLoadMoreListener(page : Int) {
         getPopularMovies(ApiClient.getClient().create(ApiInterface::class.java),getString(R.string.api_key),page)
+
+
+    }
+
+    override fun onDetach() {
+        favoriteHelper.close()
+        super.onDetach()
     }
 }

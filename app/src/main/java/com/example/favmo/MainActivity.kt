@@ -1,5 +1,7 @@
 package com.example.favmo
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.favmo.data.db.FavoriteHelper
@@ -13,15 +15,14 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity() {
     private val TAG : String = MainActivity::class.java.canonicalName
     private lateinit var movies : ArrayList<Movie>
-    private lateinit var favoriteHelper: FavoriteHelper
-
+    private var movieType : Int = 1
+    private lateinit var firstFragment:Fragment
+    private lateinit  var secondFragment:Fragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        favoriteHelper = FavoriteHelper.getInstance(this)
-        favoriteHelper.open()
         setContentView(R.layout.activity_main)
-        val firstFragment=FavoriteMovie()
-        val secondFragment=BrowseMovie()
+        firstFragment=FavoriteMovie()
+        secondFragment=BrowseMovie(movieType)
         setCurrentFragment(firstFragment)
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
@@ -38,10 +39,41 @@ class MainActivity : AppCompatActivity() {
             commit()
         }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        favoriteHelper.close()
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.action_bar_menu, menu)
+        return true
     }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId)
+        {
+            R.id.getTopRatedMovies ->{
+                supportFragmentManager.beginTransaction().remove(secondFragment).commitAllowingStateLoss()
+                movieType = 1
+                secondFragment = BrowseMovie(movieType)
+                supportFragmentManager.beginTransaction().add(R.id.flFragment, secondFragment).commit()
+                true
+            }
+            R.id.getLatestMovies ->{
+                supportFragmentManager.beginTransaction().remove(secondFragment).commitAllowingStateLoss()
+                movieType = 3
+                secondFragment = BrowseMovie(movieType)
+                supportFragmentManager.beginTransaction().add(R.id.flFragment, secondFragment).commit()
+                true
+            }
+            R.id.getPopularMovies ->
+            {
+                supportFragmentManager.beginTransaction().remove(secondFragment).commitAllowingStateLoss()
+                movieType = 2
+                secondFragment = BrowseMovie(movieType)
+                supportFragmentManager.beginTransaction().add(R.id.flFragment, secondFragment).commit()
+                true
+            }
+            else ->super.onOptionsItemSelected(item)
+        }
+    }
+
+
 
 }
 
