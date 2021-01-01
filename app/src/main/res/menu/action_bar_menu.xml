@@ -9,8 +9,5 @@
         android:id="@+id/getPopularMovies"
         android:title="Popular movie"
         android:icon="@drawable/ic_favorite_24dp"/>
-    <item
-        android:id="@+id/getLatestMovies"
-        android:title="LatestMovie"
-        android:icon="@drawable/ic_watchlist_background"/>
+
 </menu>

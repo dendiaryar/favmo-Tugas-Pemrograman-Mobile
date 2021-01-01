@@ -1,4 +1,5 @@
 package com.example.favmo
+import android.content.Context
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -18,11 +19,14 @@ class MainActivity : AppCompatActivity() {
     private var movieType : Int = 1
     private lateinit var firstFragment:Fragment
     private lateinit  var secondFragment:Fragment
+    private lateinit var favoriteHelper: FavoriteHelper
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        firstFragment=FavoriteMovie()
-        secondFragment=BrowseMovie(movieType)
+        favoriteHelper = FavoriteHelper.getInstance(this)
+        favoriteHelper.open()
+        firstFragment=FavoriteMovie(favoriteHelper)
+        secondFragment=BrowseMovie(movieType,favoriteHelper)
         setCurrentFragment(firstFragment)
 
         bottomNavigationView.setOnNavigationItemSelectedListener {
@@ -50,14 +54,7 @@ class MainActivity : AppCompatActivity() {
             R.id.getTopRatedMovies ->{
                 supportFragmentManager.beginTransaction().remove(secondFragment).commitAllowingStateLoss()
                 movieType = 1
-                secondFragment = BrowseMovie(movieType)
-                supportFragmentManager.beginTransaction().add(R.id.flFragment, secondFragment).commit()
-                true
-            }
-            R.id.getLatestMovies ->{
-                supportFragmentManager.beginTransaction().remove(secondFragment).commitAllowingStateLoss()
-                movieType = 3
-                secondFragment = BrowseMovie(movieType)
+                secondFragment = BrowseMovie(movieType,favoriteHelper)
                 supportFragmentManager.beginTransaction().add(R.id.flFragment, secondFragment).commit()
                 true
             }
@@ -65,12 +62,16 @@ class MainActivity : AppCompatActivity() {
             {
                 supportFragmentManager.beginTransaction().remove(secondFragment).commitAllowingStateLoss()
                 movieType = 2
-                secondFragment = BrowseMovie(movieType)
+                secondFragment = BrowseMovie(movieType,favoriteHelper)
                 supportFragmentManager.beginTransaction().add(R.id.flFragment, secondFragment).commit()
                 true
             }
             else ->super.onOptionsItemSelected(item)
         }
+    }
+    override fun onDestroy() {
+        favoriteHelper.close()
+        super.onDestroy()
     }
 
 

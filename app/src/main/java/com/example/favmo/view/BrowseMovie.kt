@@ -28,11 +28,10 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class BrowseMovie(private var listType : Int) : Fragment(),CellClickListener,FavoriteClickListner,
+class BrowseMovie(private var listType : Int,private var favoriteHelper: FavoriteHelper) : Fragment(),CellClickListener,FavoriteClickListner,
     LoadMoreListener {
     private val TAG : String = BrowseMovie::class.java.canonicalName
-    private lateinit var favoriteHelper: FavoriteHelper
-    private var movies : MutableList<Movie> = ArrayList<Movie>()
+    private var movies : MutableList<Movie> = ArrayList()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,7 +45,6 @@ class BrowseMovie(private var listType : Int) : Fragment(),CellClickListener,Fav
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        favoriteHelper = FavoriteHelper.getInstance(requireContext())
         val apiKey = getString(R.string.api_key)
         val apiInterface : ApiInterface = ApiClient.getClient().create(ApiInterface::class.java)
         selectGetMovie(listType,apiKey,apiInterface,1)
@@ -61,9 +59,6 @@ class BrowseMovie(private var listType : Int) : Fragment(),CellClickListener,Fav
         else if(listType==2)
         {
             getPopularMovies(apiInterface,apiKey,page)
-        }else
-        {
-            getLatestMovie(apiInterface,apiKey,page)
         }
     }
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
@@ -98,31 +93,7 @@ class BrowseMovie(private var listType : Int) : Fragment(),CellClickListener,Fav
         })
     }
 
-    fun getLatestMovie(apiInterface: ApiInterface, apiKey : String,page: Int) : Movie? {
-        var movie : Movie? = null
-        val call : Call<Movie> = apiInterface.getMovieLatest(apiKey,page)
-        call.enqueue(object : Callback<Movie> {
-            override fun onFailure(call: Call<Movie>?, t: Throwable?) {
-                Log.d("$TAG", "Gagal Fetch Movie terbaru")
-            }
 
-            override fun onResponse(call: Call<Movie>?, response: Response<Movie>?) {
-                if (response != null) {
-                    var originalTitle : String? = response.body()?.originalTitle
-                    var posterPath : String? = response.body()?.posterPath
-
-                    if (posterPath == null) {
-                    } else {
-                        val imageUrl = StringBuilder()
-                        imageUrl.append(getString(R.string.base_path_poster)).append(posterPath)
-                    }
-                }
-            }
-
-        })
-
-        return movie
-    }
 
     override fun onCellClickListener(data : Movie) {
         //Toast.makeText(requireContext(),"Cell clicked ${data}", Toast.LENGTH_SHORT).show()
@@ -147,12 +118,12 @@ class BrowseMovie(private var listType : Int) : Fragment(),CellClickListener,Fav
 
     override fun onLoadMoreListener(page : Int) {
         getPopularMovies(ApiClient.getClient().create(ApiInterface::class.java),getString(R.string.api_key),page)
-
-
     }
 
     override fun onDetach() {
-        favoriteHelper.close()
+        movies =  ArrayList()
         super.onDetach()
     }
+
+
 }

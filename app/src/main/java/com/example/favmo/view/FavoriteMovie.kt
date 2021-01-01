@@ -23,10 +23,10 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class FavoriteMovie : Fragment(),CellClickListener,FavoriteClickListner {
+class FavoriteMovie(private var favoriteHelper: FavoriteHelper) : Fragment(),CellClickListener,FavoriteClickListner {
     private val TAG : String = FavoriteMovie::class.java.canonicalName
     private lateinit var adapter: FavoriteAdapter
-    private lateinit var favoriteHelper: FavoriteHelper
+
 
     companion object {
         private const val EXTRA_STATE = "EXTRA_STATE"
@@ -46,8 +46,6 @@ class FavoriteMovie : Fragment(),CellClickListener,FavoriteClickListner {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        favoriteHelper = FavoriteHelper.getInstance(requireContext())
-        favoriteHelper.open()
         adapter = FavoriteAdapter(this,this)
 
         loadNotesAsync()
@@ -102,10 +100,6 @@ class FavoriteMovie : Fragment(),CellClickListener,FavoriteClickListner {
         favoriteHelper.deleteById(data.id)
     }
 
-    override fun onDetach() {
-        favoriteHelper.close()
-        super.onDetach()
-    }
 
 
 }
