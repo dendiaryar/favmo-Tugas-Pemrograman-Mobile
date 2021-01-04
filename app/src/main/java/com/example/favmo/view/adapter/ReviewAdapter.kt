@@ -17,7 +17,7 @@ class ReviewAdapter(private val reviews: ArrayList<Review>) : RecyclerView.Adapt
         holder.bind(reviews[position])
     }
 
-    
+
 
     override fun getItemCount() = reviews.size
 
