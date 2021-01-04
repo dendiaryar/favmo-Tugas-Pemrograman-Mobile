@@ -63,6 +63,7 @@ class BrowseMovie(private var listType : Int,private var favoriteHelper: Favorit
     }
     override fun onViewCreated(itemView: View, savedInstanceState: Bundle?) {
         }
+
     fun getPopularMovies(apiInterface: ApiInterface, apiKey : String,page : Int) {
         val call : Call<MovieResponse> = apiInterface.getPopularMovie(apiKey,page)
         call.enqueue(object : Callback<MovieResponse> {

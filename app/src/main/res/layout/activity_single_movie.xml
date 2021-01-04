@@ -94,41 +94,7 @@
                         android:textStyle="bold" />
                 </RelativeLayout>
             </androidx.cardview.widget.CardView>
-            <androidx.cardview.widget.CardView
-                android:id="@+id/videoContent"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="3dp"
-                app:cardUseCompatPadding="true"
-                android:layout_marginTop="16dp"
-                >
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    >
-                    <TextView
-                        android:id="@+id/textvideo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Trailer and Video"
-                        android:textStyle="bold"
-                        android:textSize="25dp"
-                        />
-<!--                    <androidx.recyclerview.widget.RecyclerView-->
-<!--                        android:layout_below="@+id/textvideo"-->
-<!--                        android:id="@+id/videoList"-->
-<!--                        android:layout_width="match_parent"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:orientation="horizontal"-->
-<!--                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
-<!--                        tools:listitem="@layout/movie"-->
-<!--                        >-->
 
-<!--                    </androidx.recyclerview.widget.RecyclerView>-->
-                </RelativeLayout>
-            </androidx.cardview.widget.CardView>
             <androidx.cardview.widget.CardView
                 app:cardCornerRadius="20dp"
                 app:cardElevation="3dp"
@@ -163,6 +129,45 @@
                 </LinearLayout>
 
 
+            </androidx.cardview.widget.CardView>
+
+
+
+
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/videoContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="3dp"
+                app:cardUseCompatPadding="true"
+                android:layout_marginTop="16dp"
+                >
+                <RelativeLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    >
+                    <TextView
+                        android:id="@+id/textvideo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Review by others"
+                        android:textStyle="bold"
+                        android:textSize="25dp"
+                        />
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:layout_below="@+id/textvideo"
+                        android:id="@+id/reviewList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+                        tools:listitem="@layout/review">
+                    </androidx.recyclerview.widget.RecyclerView>
+                </RelativeLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
     </ScrollView>
