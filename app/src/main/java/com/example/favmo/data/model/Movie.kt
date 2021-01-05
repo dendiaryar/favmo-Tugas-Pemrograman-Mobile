@@ -3,7 +3,7 @@ package com.example.favmo.data.model
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
-import java.io.Serializable
+
 
 @Parcelize
 data class Movie(
@@ -13,6 +13,7 @@ data class Movie(
                  @SerializedName("poster_path") val posterPath : String,
                  @SerializedName("popularity") val popularity : Double,
                  @SerializedName("vote_average") val voteaverage : Double?): Parcelable
+
 
 data class MovieResponse(var page : Int,
                          val results : ArrayList<Movie>,

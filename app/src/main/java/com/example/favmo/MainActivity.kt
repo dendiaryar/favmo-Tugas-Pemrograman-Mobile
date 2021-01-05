@@ -37,11 +37,12 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
-    private fun setCurrentFragment(fragment:Fragment)=
+    private fun setCurrentFragment(fragment:Fragment) {
         supportFragmentManager.beginTransaction().apply {
-            replace(R.id.flFragment,fragment)
+            replace(R.id.flFragment, fragment)
             commit()
         }
+    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.action_bar_menu, menu)

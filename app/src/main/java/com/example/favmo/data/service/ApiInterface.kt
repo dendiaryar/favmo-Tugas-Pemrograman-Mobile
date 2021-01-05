@@ -8,7 +8,6 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiInterface {
-
     @GET("movie/popular")
     fun getPopularMovie(@Query("api_key") apiKey: String, @Query("page") page : Int) : Call<MovieResponse>
     @GET("movie/top_rated")
