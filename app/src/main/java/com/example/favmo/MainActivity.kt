@@ -56,7 +56,8 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction().remove(secondFragment).commitAllowingStateLoss()
                 movieType = 1
                 secondFragment = BrowseMovie(movieType,favoriteHelper)
-                supportFragmentManager.beginTransaction().add(R.id.flFragment, secondFragment).commit()
+                setCurrentFragment(secondFragment)
+                
                 true
             }
             R.id.getPopularMovies ->
@@ -64,7 +65,7 @@ class MainActivity : AppCompatActivity() {
                 supportFragmentManager.beginTransaction().remove(secondFragment).commitAllowingStateLoss()
                 movieType = 2
                 secondFragment = BrowseMovie(movieType,favoriteHelper)
-                supportFragmentManager.beginTransaction().add(R.id.flFragment, secondFragment).commit()
+                setCurrentFragment(secondFragment)
                 true
             }
             else ->super.onOptionsItemSelected(item)

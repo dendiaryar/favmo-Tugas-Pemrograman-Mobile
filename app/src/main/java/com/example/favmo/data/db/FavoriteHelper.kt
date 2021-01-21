@@ -49,18 +49,6 @@ class FavoriteHelper(context: Context) {
             "$_ID ASC")
     }
 
-    fun queryById(id: String): Cursor {
-        return database.query(
-            DATABASE_TABLE,
-            null,
-            "$_ID = ?",
-            arrayOf(id),
-            null,
-            null,
-            null,
-            null)
-    }
-
     fun insert(values: ContentValues?): Long {
         return database.insert(DATABASE_TABLE, null, values)
     }

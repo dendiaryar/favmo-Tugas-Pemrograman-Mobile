@@ -47,6 +47,7 @@ class FavoriteMovie(private var favoriteHelper: FavoriteHelper) : Fragment(),Cel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         adapter = FavoriteAdapter(this,this)
+        adapter.listFavorites = ArrayList()
 
         loadNotesAsync()
 

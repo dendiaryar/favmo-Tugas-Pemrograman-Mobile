@@ -32,6 +32,7 @@ class BrowseMovie(private var listType : Int,private var favoriteHelper: Favorit
     LoadMoreListener {
     private val TAG : String = BrowseMovie::class.java.canonicalName
     private var movies : MutableList<Movie> = ArrayList()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -70,7 +71,6 @@ class BrowseMovie(private var listType : Int,private var favoriteHelper: Favorit
             override fun onFailure(call: Call<MovieResponse>?, t: Throwable?) {
                 Log.d("$TAG", "Gagal Fetch Popular Movie")
             }
-
             override fun onResponse(call: Call<MovieResponse>?, response: Response<MovieResponse>?) {
                 movies.addAll(response!!.body()!!.results)
                 Log.d("$TAG", "Movie size ${movies.size}")
